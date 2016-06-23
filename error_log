@@ -1,0 +1,2 @@
+[13-Nov-2014 05:08:46 America/Chicago] PHP Fatal error:  Allowed memory size of 268435456 bytes exhausted (tried to allocate 82 bytes) in /home3/royz4u/public_html/ercasapi/system/database/drivers/mysql/mysql_result.php on line 152
+[24-Nov-2014 09:01:51 America/Chicago] PHP Parse error:  syntax error, unexpected T_STRING, expecting ';' or '{' in /home3/royz4u/public_html/ercasapi/application/models/client_model.php on line 37
