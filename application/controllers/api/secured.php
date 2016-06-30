@@ -228,39 +228,30 @@ class Secured extends REST_Controller
 
     function meter_get()
     {
-         if(!$this->get('meter_number'))
+         if(!$this->get('meter_no'))
         {
             $this->response(NULL, 400);
         }
 
-        if(!$this->get('meter_type'))
-        {
-            $this->response(NULL, 400);
-        }
 
-        if(!$this->get('disco'))
-        {
-            $this->response(NULL, 400);
-        }
-
-        $meter_number = $this->get('meter_number');
+        $meter_no = $this->get('meter_no');
         $token = $this->token(); 
 
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, FALSE);
-        curl_setopt($ch, CURLOPT_URL,'https://lightup.com.ng/api/EbillsEnergyTest?meter_number='.$meter_number.'&meter_type=PREPAID&disco=ABUJA');     
+        curl_setopt($ch, CURLOPT_URL,'https://services.lightup.com.ng/api/aedcebillsdemo/meterdetails/'.$meter_no);     
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 
         $headers = array();
         $headers[] = 'Authorization: Bearer '.$token;
         curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
 
-        $token = curl_exec ($ch);
+        $meter = curl_exec ($ch);
         curl_close ($ch);
 
-        $token = json_decode($token);
+        $meter = json_decode($meter);
 
-        $this->response($token, 200); // 200 being the HTTP response code
+        $this->response($meter, 200); // 200 being the HTTP response code
 
     }
 
@@ -270,20 +261,24 @@ class Secured extends REST_Controller
         $data = array();
         $data['meter_type'] = $this->post('meter_type');
         $data['disco']= $this->post('disco');
-        $data['amount'] = $this->post('amount');
-        $data['mobile_number'] = $this->post('mobile_number');
-        $data['bank_ref'] = $this->post('bank_ref');
         $data['timestamp'] = $this->post('timestamp');
+        $data['amount'] = $this->post('amount');
+        $data['mobile_no'] = $this->post('mobile_no');
+        $data['bank_ref'] = $this->post('bank_ref');       
         $data['order_id'] = $this->post('order_id');
-        $data['meter_number'] = $this->post('meter_number');
+        $data['meter_no'] = $this->post('meter_no');
         $data['email_address'] = $this->post('email_address');
+        $data['source_bank'] = $this->post('source_bank');
+        $data['destination_bank'] = $this->post('destination_bank');
+        $data['transaction_date'] = $this->post('transaction_date');
+        $data['transaction_time'] = $this->post('transaction_time');
 
         $data = json_encode($data);
         $token = $this->token(); 
 
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, FALSE);
-        curl_setopt($ch, CURLOPT_URL,"https://lightup.com.ng/api/EbillsEnergyTest");
+        curl_setopt($ch, CURLOPT_URL,"https://services.lightup.com.ng/api/aedcebillsdemo/unitrequest");
         curl_setopt($ch, CURLOPT_POST, 1);
         curl_setopt($ch, CURLOPT_POSTFIELDS,$data);  //Post Fields
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
@@ -299,11 +294,6 @@ class Secured extends REST_Controller
 
         $pin = json_decode($pin);
 
-        if( ! $pin){
-
-            $this->response(NULL, 400);
-        }
-
         $this->response($pin, 200); // 200 being the HTTP response code
 
     }
@@ -315,9 +305,9 @@ class Secured extends REST_Controller
         //generate an access token
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, FALSE);
-        curl_setopt($ch, CURLOPT_URL,"https://lightup.com.ng/AccessToken");
+        curl_setopt($ch, CURLOPT_URL,"https://services.lightup.com.ng/AccessToken");
         curl_setopt($ch, CURLOPT_POST, 1);
-        curl_setopt($ch, CURLOPT_POSTFIELDS,"Username=ebills1@demo.com&Password=Ebills1@demo.com1&grant_type=password");  //Post Fields
+        curl_setopt($ch, CURLOPT_POSTFIELDS,"Username=eb1LLs@lightup.api&Password=oTROUEAI#XWn7DzmbZxVx&grant_type=password");  //Post Fields
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 
         $headers = array();
