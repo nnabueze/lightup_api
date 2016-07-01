@@ -250,6 +250,12 @@ class Secured extends REST_Controller
         curl_close ($ch);
 
         $meter = json_decode($meter);
+        $meter = (array) $meter;
+
+        if ($meter['code'] != 'err100') {
+
+            $this->response($meter['message'], 400);
+        }
 
         $this->response($meter, 200); // 200 being the HTTP response code
 
@@ -293,6 +299,12 @@ class Secured extends REST_Controller
         curl_close ($ch);
 
         $pin = json_decode($pin);
+        $pin = (array) $pin;
+
+        if ($pin['code'] != 'err100') {
+
+            $this->response($pin['message'], 400);
+        }
 
         $this->response($pin, 200); // 200 being the HTTP response code
 
